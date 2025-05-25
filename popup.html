@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prompt Saver</title>
+    <link rel="stylesheet" href="popup.css">
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Prompt Saver</h1>
+            <button id="showAddPromptFormBtn" class="btn btn-primary">
+                <i class="fas fa-plus"></i> Add Prompt
+            </button>
+        </header>
+
+        <div id="addPromptForm" class="add-form" style="display:none;">
+            <input type="text" id="promptNameInput" placeholder="Prompt Name">
+            <textarea id="promptTextInput" placeholder="Enter prompt text here..." rows="4"></textarea>
+            <div class="form-actions">
+                <button id="savePromptBtn" class="btn btn-success"><i class="fas fa-save"></i> Save</button>
+                <button id="cancelAddPromptBtn" class="btn btn-secondary"><i class="fas fa-times"></i> Cancel</button>
+            </div>
+        </div>
+
+        <div id="promptsList">
+            <!-- Prompts will be loaded here by JavaScript -->
+        </div>
+
+        <div id="copyNotification" class="notification">Copied!</div>
+    </div>
+    <script src="popup.js"></script>
+</body>
+</html>
