@@ -8,12 +8,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const promptsListDiv = document.getElementById('promptsList');
     const copyNotification = document.getElementById('copyNotification');
 
+    // DOM elements for editing prompts
+    const editPromptForm = document.getElementById('editPromptForm');
+    const editPromptIdInput = document.getElementById('editPromptIdInput');
+    const editPromptNameInput = document.getElementById('editPromptNameInput');
+    const editPromptTextInput = document.getElementById('editPromptTextInput');
+    const updatePromptBtn = document.getElementById('updatePromptBtn');
+    const cancelEditPromptBtn = document.getElementById('cancelEditPromptBtn');
+
     const ACCENT_COLORS = ['#3498db', '#2ecc71', '#e74c3c', '#f1c40f', '#9b59b6', '#1abc9c'];
     let prompts = [];
 
     // --- UI Toggles ---
     function toggleAddForm(show) {
         if (show) {
+            editPromptForm.style.display = 'none'; // Ensure edit form is hidden
             addPromptForm.style.display = 'block';
             showAddPromptFormBtn.style.display = 'none';
             promptNameInput.focus();
@@ -137,6 +146,15 @@ document.addEventListener('DOMContentLoaded', () => {
             actionsDiv.appendChild(copyIcon);
             actionsDiv.appendChild(deleteIcon);
 
+            const editIcon = document.createElement('i');
+            editIcon.classList.add('fas', 'fa-edit'); // Or 'fa-pencil-alt'
+            editIcon.title = "Edit prompt";
+            editIcon.addEventListener('click', (e) => {
+                e.stopPropagation();
+                showEditForm(prompt.id);
+            });
+            actionsDiv.appendChild(editIcon);
+
             promptItem.appendChild(contentDiv);
             promptItem.appendChild(actionsDiv);
             promptsListDiv.appendChild(promptItem);
@@ -145,4 +163,62 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Initial Load ---
     loadPrompts();
+
+    // --- Edit Form: Show ---
+    function showEditForm(promptId) {
+        const promptToEdit = prompts.find(p => p.id === promptId);
+        if (promptToEdit) {
+            editPromptIdInput.value = promptToEdit.id;
+            editPromptNameInput.value = promptToEdit.name;
+            editPromptTextInput.value = promptToEdit.text;
+
+            addPromptForm.style.display = 'none'; // Hide add form
+            promptsListDiv.style.display = 'none'; // Hide prompts list
+            showAddPromptFormBtn.style.display = 'none'; // Hide 'Add Prompt' button
+            editPromptForm.style.display = 'block'; // Show edit form
+            editPromptNameInput.focus();
+        } else {
+            console.error("Prompt not found for editing:", promptId);
+        }
+    }
+
+    // --- Edit Form: Hide ---
+    function hideEditForm() {
+        editPromptIdInput.value = '';
+        editPromptNameInput.value = '';
+        editPromptTextInput.value = '';
+
+        editPromptForm.style.display = 'none'; // Hide edit form
+        promptsListDiv.style.display = 'block'; // Show prompts list
+        showAddPromptFormBtn.style.display = 'block'; // Show 'Add Prompt' button
+        // Ensure addPromptForm is also hidden, toggleAddForm(false) handles its fields.
+        if (addPromptForm.style.display === 'block') {
+            toggleAddForm(false);
+        }
+    }
+
+    // --- Edit Form: Event Listeners ---
+    updatePromptBtn.addEventListener('click', () => {
+        const id = editPromptIdInput.value;
+        const name = editPromptNameInput.value.trim();
+        const text = editPromptTextInput.value.trim();
+
+        if (!name || !text) {
+            alert('Please provide both a name and text for the prompt.');
+            return;
+        }
+
+        const promptIndex = prompts.findIndex(p => p.id === id);
+        if (promptIndex !== -1) {
+            prompts[promptIndex] = { ...prompts[promptIndex], name, text };
+            savePromptsToStorage();
+            hideEditForm();
+        } else {
+            console.error('Prompt not found for update:', id);
+            alert('Error: Could not find the prompt to update. Please try again.');
+            hideEditForm(); // Hide form even if error occurs
+        }
+    });
+
+    cancelEditPromptBtn.addEventListener('click', hideEditForm);
 });

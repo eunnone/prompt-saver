@@ -101,6 +101,37 @@ header h1 {
 }
 
 
+/* Styles for the Edit Prompt Form */
+.edit-form {
+    background-color: #ffffff; /* Consistent with add-form */
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05); /* Consistent shadow */
+    margin-bottom: 15px; /* Consistent margin */
+    /* border: 1px solid #ddd; /* Optional: if a distinct border is desired */
+}
+
+.edit-form input[type="text"],
+.edit-form textarea {
+    width: calc(100% - 22px); /* Account for padding */
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd; /* Consistent border */
+    border-radius: 4px;
+    font-size: 0.9em;
+    box-sizing: border-box;
+}
+
+.edit-form textarea {
+    resize: vertical;
+    min-height: 80px; /* Slightly more or same as add-form's default */
+}
+
+/* Reuses .form-actions from add-form, so no new rule needed if structure is the same */
+/* If .edit-form .form-actions needs specific styling, it would go here */
+
+
+
 #promptsList {
     max-height: 300px; /* Limit height for scrollability if many prompts */
     overflow-y: auto;

@@ -26,6 +26,16 @@
             </div>
         </div>
 
+        <div id="editPromptForm" class="edit-form" style="display:none;">
+            <input type="hidden" id="editPromptIdInput">
+            <input type="text" id="editPromptNameInput" placeholder="Prompt Name">
+            <textarea id="editPromptTextInput" placeholder="Enter prompt text here..." rows="4"></textarea>
+            <div class="form-actions">
+                <button id="updatePromptBtn" class="btn btn-success"><i class="fas fa-save"></i> Save Changes</button>
+                <button id="cancelEditPromptBtn" class="btn btn-secondary"><i class="fas fa-times"></i> Cancel</button>
+            </div>
+        </div>
+
         <div id="promptsList">
             <!-- Prompts will be loaded here by JavaScript -->
         </div>
